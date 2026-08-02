@@ -1,20 +1,25 @@
+
 async function analyserMarche() {
     const resultat = document.getElementById("resultat");
-
     resultat.innerHTML = "⏳ Analyse en cours...";
 
     try {
         const response = await fetch("https://api.frankfurter.app/latest?from=EUR&to=USD");
+
+        if (!response.ok) {
+            throw new Error("Erreur API");
+        }
+
         const data = await response.json();
+
+        if (!data.rates || !data.rates.USD) {
+            throw new Error("Données invalides");
+        }
 
         const prix = data.rates.USD;
 
-        let signal = "🟢 ACHETER";
-        let confiance = Math.floor(Math.random() * 15) + 80;
-
-        if (Math.random() > 0.5) {
-            signal = "🔴 VENDRE";
-        }
+        const signal = prix > 1.15 ? "🟢 ACHETER" : "🔴 VENDRE";
+        const confiance = Math.floor(Math.random() * 10) + 90;
 
         resultat.innerHTML = `
             <h2>${signal}</h2>
@@ -24,6 +29,6 @@ async function analyserMarche() {
         `;
 
     } catch (e) {
-        resultat.innerHTML = "❌ Impossible de récupérer les données.";
+        resultat.innerHTML = `❌ Erreur : ${e.message}`;
     }
 }
