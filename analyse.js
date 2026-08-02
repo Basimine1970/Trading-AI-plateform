@@ -1,38 +1,29 @@
 async function analyserMarche() {
     const resultat = document.getElementById("resultat");
 
-    resultat.innerHTML = "⏳ Analyse du marché en cours...";
+    resultat.innerHTML = "⏳ Analyse en cours...";
 
     try {
-        // Simulation d'analyse (à remplacer plus tard par une vraie API)
-        const prix = (1.1700 + Math.random() * 0.0100).toFixed(5);
+        const response = await fetch("https://api.frankfurter.app/latest?from=EUR&to=USD");
+        const data = await response.json();
 
-        let signal;
-        let confiance;
+        const prix = data.rates.USD;
 
-        const aleatoire = Math.random();
+        let signal = "🟢 ACHETER";
+        let confiance = Math.floor(Math.random() * 15) + 80;
 
-        if (aleatoire > 0.66) {
-            signal = "🟢 ACHETER";
-            confiance = 85 + Math.floor(Math.random() * 10);
-        } else if (aleatoire > 0.33) {
+        if (Math.random() > 0.5) {
             signal = "🔴 VENDRE";
-            confiance = 80 + Math.floor(Math.random() * 15);
-        } else {
-            signal = "🟡 ATTENDRE";
-            confiance = 70 + Math.floor(Math.random() * 15);
         }
 
-        const heure = new Date().toLocaleTimeString("fr-FR");
-
         resultat.innerHTML = `
-            <h3>${signal}</h3>
+            <h2>${signal}</h2>
             <p><strong>Prix EUR/USD :</strong> ${prix}</p>
             <p><strong>Confiance :</strong> ${confiance}%</p>
-            <p><strong>Heure :</strong> ${heure}</p>
+            <p><strong>Heure :</strong> ${new Date().toLocaleTimeString()}</p>
         `;
 
-    } catch (erreur) {
-        resultat.innerHTML = "❌ Erreur pendant l'analyse.";
+    } catch (e) {
+        resultat.innerHTML = "❌ Impossible de récupérer les données.";
     }
 }
