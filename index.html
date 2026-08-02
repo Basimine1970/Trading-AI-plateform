@@ -1,23 +1,4 @@
-<div id="tradingview_chart" style="height:400px; margin-top:20px;"></div>
-
-<script src="https://s3.tradingview.com/tv.js"></script>
-
-<script>
-new TradingView.widget({
-    "container_id": "tradingview_chart",
-    "width": "100%",
-    "height": 400,
-    "symbol": "FX:EURUSD",
-    "interval": "1",
-    "timezone": "Etc/UTC",
-    "theme": "dark",
-    "style": "1",
-    "locale": "fr",
-    "toolbar_bg": "#1e293b",
-    "hide_top_toolbar": false,
-    "allow_symbol_change": true
-});
-</script>!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -25,6 +6,7 @@ new TradingView.widget({
     <title>Trading AI Plateforme</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="container">
@@ -33,7 +15,7 @@ new TradingView.widget({
     <div class="card">
         <h2>Analyse du marché</h2>
 
-        <p id="paire">Paire : EUR/USD</p>
+        <p>Paire : EUR/USD</p>
 
         <button onclick="analyserMarche()">
             Analyser maintenant
@@ -41,13 +23,31 @@ new TradingView.widget({
 
         <div id="resultat">
             <h3>Résultat</h3>
-            <p id="signal">En attente...</p>
-            <p id="confiance"></p>
-            <p id="heure"></p>
+            <p>En attente...</p>
         </div>
-    </div>
 
+        <div id="tradingview_chart" style="height:400px; margin-top:20px;"></div>
+
+    </div>
 </div>
+
+<script src="https://s3.tradingview.com/tv.js"></script>
+
+<script>
+new TradingView.widget({
+    container_id: "tradingview_chart",
+    width: "100%",
+    height: 400,
+    symbol: "FX:EURUSD",
+    interval: "1",
+    timezone: "Etc/UTC",
+    theme: "dark",
+    style: "1",
+    locale: "fr",
+    toolbar_bg: "#1e293b",
+    allow_symbol_change: true
+});
+</script>
 
 <script src="analyse.js"></script>
 <script src="script.js"></script>
