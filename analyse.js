@@ -29,6 +29,9 @@ async function analyserMarche() {
         `;
 
     } catch (e) {
-        resultat.innerHTML = `❌ Erreur : ${e.message}`;
-    }
+    console.error(e);
+    resultat.innerHTML = `
+        <h3>❌ Erreur</h3>
+        <p>${e.message}</p>
+    `;
 }
