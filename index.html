@@ -16,12 +16,7 @@
 
     <div class="card">
 
-        <h2>Analyse du marché</h2>
-
-        <p>Paire : EUR/USD</p>
-
-        <button onclick="analyserMarche()">
-            <label for="pair">Choisir une paire :</label>
+        <h2>Analyse du marché</h2><p>Choisir une paire :</p>
 
 <select id="pair">
     <option value="EURUSD">EUR/USD</option>
@@ -30,8 +25,11 @@
     <option value="XAUUSD">OR (XAU/USD)</option>
 </select>
 
-<br><br>Analyser maintenant
-        </button>
+<br><br>
+
+<button onclick="analyserMarche()">
+    🔍 Analyser maintenant
+</button>
 
         <div id="resultat">
             <h3>Résultat</h3>
