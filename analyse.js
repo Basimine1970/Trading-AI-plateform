@@ -6,38 +6,59 @@ async function analyserMarche() {
 
     setTimeout(() => {
 
+        // Simulation des indicateurs
         const rsi = Math.floor(Math.random() * 100);
-        const macd = (Math.random() * 4 - 2).toFixed(2);
+        const tendance = Math.random() > 0.5 ? "Haussière" : "Baissière";
+        const support = Math.random() > 0.5;
+        const resistance = !support;
 
-        let signal = "🟡 ATTENDRE";
-        let tendance = "➡️ Neutre";
-        let confiance = 65;
+        let scoreAchat = 0;
+        let scoreVente = 0;
 
-        if (rsi < 30 && macd > 0) {
+        // Analyse RSI
+        if (rsi < 30) {
+            scoreAchat += 40;
+        } else if (rsi > 70) {
+            scoreVente += 40;
+        } else {
+            scoreAchat += 20;
+            scoreVente += 20;
+        }
+
+        // Analyse de la tendance
+        if (tendance === "Haussière") {
+            scoreAchat += 30;
+        } else {
+            scoreVente += 30;
+        }
+
+        // Support / Résistance
+        if (support) {
+            scoreAchat += 30;
+        }
+
+        if (resistance) {
+            scoreVente += 30;
+        }
+
+        // Décision finale
+        let signal, confiance;
+
+        if (scoreAchat >= scoreVente) {
             signal = "🟢 ACHETER";
-            tendance = "📈 Haussière";
-            confiance = 90;
-        } else if (rsi > 70 && macd < 0) {
+            confiance = scoreAchat;
+        } else {
             signal = "🔴 VENDRE";
-            tendance = "📉 Baissière";
-            confiance = 90;
+            confiance = scoreVente;
         }
 
         resultat.innerHTML = `
             <h3>📊 Analyse IA</h3>
-
             <p><strong>Paire :</strong> ${paire}</p>
-
-            <p><strong>Tendance :</strong> ${tendance}</p>
-
             <p><strong>RSI :</strong> ${rsi}</p>
-
-            <p><strong>MACD :</strong> ${macd}</p>
-
+            <p><strong>Tendance :</strong> ${tendance}</p>
             <p><strong>Signal :</strong> ${signal}</p>
-
             <p><strong>Confiance :</strong> ${confiance}%</p>
-
             <p><strong>Heure :</strong> ${new Date().toLocaleTimeString()}</p>
         `;
 
