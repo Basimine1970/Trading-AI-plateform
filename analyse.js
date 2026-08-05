@@ -6,19 +6,18 @@ async function analyserMarche() {
 
     setTimeout(() => {
 
-        // Valeurs simulées (elles seront remplacées plus tard par de vraies données)
-        const rsi = Math.floor(Math.random() * 40) + 30;
-        const macd = (Math.random() * 2 - 1).toFixed(2);
+        const rsi = Math.floor(Math.random() * 100);
+        const macd = (Math.random() * 4 - 2).toFixed(2);
 
         let signal = "🟡 ATTENDRE";
         let tendance = "➡️ Neutre";
-        let confiance = 60;
+        let confiance = 65;
 
-        if (rsi < 30) {
+        if (rsi < 30 && macd > 0) {
             signal = "🟢 ACHETER";
             tendance = "📈 Haussière";
-            confiance = 88;
-        } else if (rsi > 70) {
+            confiance = 90;
+        } else if (rsi > 70 && macd < 0) {
             signal = "🔴 VENDRE";
             tendance = "📉 Baissière";
             confiance = 90;
