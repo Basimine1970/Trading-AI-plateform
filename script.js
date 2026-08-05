@@ -1,4 +1,4 @@
-async function analyserMarche() {
+p function analyserMarche() {
     const resultat = document.getElementById("resultat");
     const paire = document.getElementById("pair").value;
 
@@ -40,8 +40,16 @@ async function analyserMarche() {
             <h3>📊 Analyse IA</h3>
             <p><strong>Paire :</strong> ${paire}</p>
             <p><strong>Tendance :</strong> ${tendance}</p>
-            <p><strong>Signal :</strong> ${signal}</p>
-            <p><strong>Confiance :</strong> ${confiance}</p>
+            <p><strong>Signal :</strong> ${signal}</p><p><strong>Conseil IA :</strong>
+${
+    signal.includes("ACHETER")
+        ? "📈 Le marché semble favorable à un achat."
+        : signal.includes("VENDRE")
+        ? "📉 Le marché semble favorable à une vente."
+        : "⏳ Attendez une meilleure opportunité."
+}
+</p>
+ p          <p><strong>Confiance :</strong> ${confiance}</p>
             <p><strong>Heure :</strong> ${new Date().toLocaleTimeString()}</p>
         `;
 
