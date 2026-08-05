@@ -1,37 +1,46 @@
-
 async function analyserMarche() {
     const resultat = document.getElementById("resultat");
-    resultat.innerHTML = "⏳ Analyse en cours...";
+    const paire = document.getElementById("pair").value;
 
-    try {
-        const response = await fetch("https://api.frankfurter.app/latest?from=EUR&to=USD");
+    resultat.innerHTML = "⏳ Analyse IA en cours...";
 
-        if (!response.ok) {
-            throw new Error("Erreur API");
+    setTimeout(() => {
+
+        // Valeurs simulées (elles seront remplacées plus tard par de vraies données)
+        const rsi = Math.floor(Math.random() * 40) + 30;
+        const macd = (Math.random() * 2 - 1).toFixed(2);
+
+        let signal = "🟡 ATTENDRE";
+        let tendance = "➡️ Neutre";
+        let confiance = 60;
+
+        if (rsi < 30) {
+            signal = "🟢 ACHETER";
+            tendance = "📈 Haussière";
+            confiance = 88;
+        } else if (rsi > 70) {
+            signal = "🔴 VENDRE";
+            tendance = "📉 Baissière";
+            confiance = 90;
         }
-
-        const data = await response.json();
-
-        if (!data.rates || !data.rates.USD) {
-            throw new Error("Données invalides");
-        }
-
-        const prix = data.rates.USD;
-
-        const signal = prix > 1.15 ? "🟢 ACHETER" : "🔴 VENDRE";
-        const confiance = Math.floor(Math.random() * 10) + 90;
 
         resultat.innerHTML = `
-            <h2>${signal}</h2>
-            <p><strong>Prix EUR/USD :</strong> ${prix}</p>
+            <h3>📊 Analyse IA</h3>
+
+            <p><strong>Paire :</strong> ${paire}</p>
+
+            <p><strong>Tendance :</strong> ${tendance}</p>
+
+            <p><strong>RSI :</strong> ${rsi}</p>
+
+            <p><strong>MACD :</strong> ${macd}</p>
+
+            <p><strong>Signal :</strong> ${signal}</p>
+
             <p><strong>Confiance :</strong> ${confiance}%</p>
+
             <p><strong>Heure :</strong> ${new Date().toLocaleTimeString()}</p>
         `;
 
-    } catch (e) {
-    console.error(e);
-    resultat.innerHTML = `
-        <h3>❌ Erreur</h3>
-        <p>${e.message}</p>
-    `;
+    }, 1500);
 }
