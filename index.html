@@ -16,32 +16,35 @@
 
     <div class="card">
 
-        <h2>Analyse du marché</h2><p>Choisir une paire :</p>
+        <h2>🤖 Analyse du marché M1</h2>
 
-<select id="pair">
-    <option value="EURUSD">EUR/USD</option>
-    <option value="GBPUSD">GBP/USD</option>
-    <option value="USDJPY">USD/JPY</option>
-    <option value="XAUUSD">OR (XAU/USD)</option>
-</select>
+        <p>Choisir une paire :</p>
 
-<br><br>
+        <select id="pair">
+            <option value="EURUSD">EUR/USD</option>
+            <option value="GBPUSD">GBP/USD</option>
+            <option value="USDJPY">USD/JPY</option>
+            <option value="XAUUSD">OR (XAU/USD)</option>
+        </select>
 
-<button onclick="analyserMarche()">
-    🔍 Analyser maintenant
-</button>
+        <br><br>
+
+        <button onclick="analyserMarche()">
+            🔍 Analyser maintenant
+        </button>
 
         <div id="resultat">
             <h3>Résultat</h3>
             <p>En attente...</p>
         </div>
 
-        <div id="tradingview_chart" style="height:400px; margin-top:20px;"></div>
+        <div id="tradingview_chart"
+             style="height:400px; margin-top:20px;">
+        </div>
 
     </div>
 
 </div>
-
 
 <!-- TradingView -->
 <script src="https://s3.tradingview.com/tv.js"></script>
@@ -62,11 +65,9 @@ new TradingView.widget({
 });
 </script>
 
-
 <!-- Tes fichiers JavaScript -->
 <script src="analyse.js"></script>
 <script src="script.js"></script>
-
 
 </body>
 </html>
