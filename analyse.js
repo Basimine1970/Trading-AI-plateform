@@ -1,5 +1,5 @@
-async function analyserMarche() {
-    const resultat = document.getElementById("resultat");
+ function analyserMarche() {
+    const resultat = docasyncument.getElementById("resultat");
     const paire = document.getElementById("pair").value;
 
     resultat.innerHTML = "⏳ Analyse du marché en cours...";
