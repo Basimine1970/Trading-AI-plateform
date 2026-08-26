@@ -3,29 +3,418 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>TREU TRADING AI</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #07111f;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 480px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            color: #94a3b8;
+        }
+
+        .card {
+            background: #111c2d;
+            border-radius: 18px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            background: #081221;
+            color: white;
+            border: 1px solid #334155;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 18px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .status {
+            margin-top: 20px;
+        }
+
+        .step {
+            padding: 13px;
+            margin: 8px 0;
+            border-radius: 10px;
+            background: #172337;
+            text-align: center;
+        }
+
+        .working {
+            background: #1e40af;
+        }
+
+        .finished {
+            background: #166534;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            background: #172337;
+            text-align: center;
+        }
+
+        .result h2 {
+            margin-top: 0;
+        }
+
+        .signal {
+            font-size: 30px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .confidence {
+            font-size: 21px;
+            margin: 10px 0;
+        }
+
+        .info {
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .warning {
+            margin-top: 20px;
+            color: #64748b;
+            font-size: 12px;
+            text-align: center;
+        }
+
+    </style>
 </head>
 
 <body>
 
-    <h1>🤖 TREU TRADING AI</h1>
+<div class="app">
 
-    <p>AI-Powered Market Analysis</p>
+    <div class="header">
 
-    <button onclick="tester()">
-        🔍 ANALYSER
-    </button>
+        <h1>🤖 TREU TRADING AI</h1>
 
-    <div id="resultat">
-        <p>En attente...</p>
+        <p>AI-Powered Market Analysis</p>
+
     </div>
 
-    <script>
-        function tester() {
-            document.getElementById("resultat").innerHTML =
-                "<h2>✅ ÇA FONCTIONNE !</h2>";
+
+    <div class="card">
+
+        <label for="pair">
+            Choisir l'instrument
+        </label>
+
+        <select id="pair">
+
+            <option value="EUR/USD OTC">
+                EUR/USD OTC
+            </option>
+
+            <option value="GBP/USD OTC">
+                GBP/USD OTC
+            </option>
+
+            <option value="USD/JPY OTC">
+                USD/JPY OTC
+            </option>
+
+            <option value="AUD/USD OTC">
+                AUD/USD OTC
+            </option>
+
+            <option value="XAU/USD">
+                XAU/USD
+            </option>
+
+        </select>
+
+
+        <button onclick="lancerAnalyse()">
+
+            🔍 ANALYSER LE MARCHÉ
+
+        </button>
+
+
+        <div id="status" class="status">
+
+            <p style="text-align:center;">
+                En attente de l'analyse...
+            </p>
+
+        </div>
+
+
+        <div id="resultat"></div>
+
+    </div>
+
+
+    <div class="warning">
+
+        ⚠️ Prototype de démonstration.
+        Un signal ne garantit jamais un gain.
+
+    </div>
+
+</div>
+
+
+<script>
+
+function lancerAnalyse() {
+
+    const pair =
+        document.getElementById("pair").value;
+
+    const status =
+        document.getElementById("status");
+
+    const resultat =
+        document.getElementById("resultat");
+
+
+    resultat.innerHTML = "";
+
+
+    const etapes = [
+        "S5",
+        "S4",
+        "S3",
+        "S2",
+        "S1",
+        "M1"
+    ];
+
+
+    let html = "";
+
+    etapes.forEach(function(etape) {
+
+        html += `
+            <div
+                class="step"
+                id="step-${etape}"
+            >
+                ⏳ ${etape} — EN ATTENTE
+            </div>
+        `;
+
+    });
+
+
+    status.innerHTML = `
+
+        <h3 style="text-align:center;">
+            📊 ANALYSE : ${pair}
+        </h3>
+
+        ${html}
+
+    `;
+
+
+    let position = 0;
+
+
+    const analyse = setInterval(function() {
+
+
+        if (position > 0) {
+
+            const precedent =
+                document.getElementById(
+                    "step-" + etapes[position - 1]
+                );
+
+            precedent.classList.remove("working");
+
+            precedent.classList.add("finished");
+
+            precedent.innerHTML =
+                "✅ " +
+                etapes[position - 1] +
+                " — TERMINÉ";
+
         }
-    </script>
+
+
+        if (position < etapes.length) {
+
+            const actuel =
+                document.getElementById(
+                    "step-" + etapes[position]
+                );
+
+            actuel.classList.add("working");
+
+            actuel.innerHTML =
+                "⏳ " +
+                etapes[position] +
+                " — ANALYZING...";
+
+            position++;
+
+        }
+
+
+        else {
+
+            clearInterval(analyse);
+
+            afficherSignal(pair);
+
+        }
+
+
+    }, 1200);
+
+}
+
+
+function afficherSignal(pair) {
+
+    const resultat =
+        document.getElementById("resultat");
+
+
+    /*
+       PROTOTYPE UNIQUEMENT.
+       Nous remplacerons cette partie
+       par une vraie analyse de marché.
+    */
+
+
+    const signaux = [
+
+        "🟢 CALL",
+
+        "🔴 PUT",
+
+        "⚪ WAIT"
+
+    ];
+
+
+    const signal =
+        signaux[
+            Math.floor(
+                Math.random() * signaux.length
+            )
+        ];
+
+
+    const confiance =
+        Math.floor(
+            Math.random() * 16
+        ) + 75;
+
+
+    resultat.innerHTML = `
+
+        <div class="result">
+
+            <h2>
+                📊 ANALYSIS COMPLETE
+            </h2>
+
+            <div class="signal">
+                ${signal}
+            </div>
+
+            <div class="confidence">
+
+                Confidence :
+                <strong>
+                    ${confiance}%
+                </strong>
+
+            </div>
+
+            <div class="info">
+
+                <div>
+                    💱 Instrument :
+                    ${pair}
+                </div>
+
+                <div>
+                    ⏱️ Timeframe :
+                    M1
+                </div>
+
+                <div>
+                    ⏳ Expiration :
+                    1 minute
+                </div>
+
+                <div>
+                    🕐 Heure :
+                    ${new Date().toLocaleTimeString()}
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+</script>
 
 </body>
 </html>
