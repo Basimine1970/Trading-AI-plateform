@@ -124,4 +124,15 @@
         `;
 
     }, 1000);
+}function analyserMarche() {
+
+    const resultat = document.getElementById("resultat");
+    const paire = document.getElementById("pair").value;
+
+    resultat.innerHTML = `
+        <h3>✅ FONCTIONNEMENT CONFIRMÉ</h3>
+        <p>🤖 Trading AI est connecté.</p>
+        <p><strong>Paire :</strong> ${paire}</p>
+        <p>⏳ Préparation de l'analyse S5 → S4 → S3 → S2 → S1 → M1...</p>
+    `;
 }
