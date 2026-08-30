@@ -1,366 +1,330 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html><html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>TREU TRADING AI</title>
 
-    <title>TREU TRADING AI</title>
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-    <style>
+    body {
+        margin: 0;
+        background: #07111f;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
 
-        * {
-            box-sizing: border-box;
-        }
+    .app {
+        width: 100%;
+        max-width: 480px;
+        margin: auto;
+        padding: 20px;
+    }
 
-        body {
-            margin: 0;
-            background: #07111f;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
+    .header {
+        text-align: center;
+        padding: 20px 0;
+    }
 
-        .app {
-            width: 100%;
-            max-width: 480px;
-            margin: auto;
-            padding: 20px;
-        }
+    .header h1 {
+        margin: 0;
+        font-size: 28px;
+    }
 
-        .header {
-            text-align: center;
-            padding: 20px 0;
-        }
+    .header p {
+        color: #94a3b8;
+    }
 
-        .header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
+    .card {
+        background: #111c2d;
+        border-radius: 18px;
+        padding: 20px;
+        margin-top: 15px;
+    }
 
-        .header p {
-            color: #94a3b8;
-        }
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #cbd5e1;
+    }
 
-        .card {
-            background: #111c2d;
-            border-radius: 18px;
-            padding: 20px;
-            margin-top: 15px;
-        }
+    select {
+        width: 100%;
+        padding: 14px;
+        border-radius: 10px;
+        background: #081221;
+        color: white;
+        border: 1px solid #334155;
+        font-size: 16px;
+    }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #cbd5e1;
-        }
+    button {
+        width: 100%;
+        margin-top: 18px;
+        padding: 15px;
+        border: none;
+        border-radius: 10px;
+        background: #2563eb;
+        color: white;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+    }
 
-        select {
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            background: #081221;
-            color: white;
-            border: 1px solid #334155;
-            font-size: 16px;
-        }
+    button:disabled {
+        opacity: 0.6;
+        cursor: wait;
+    }
 
-        button {
-            width: 100%;
-            margin-top: 18px;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            background: #2563eb;
-            color: white;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+    .status {
+        margin-top: 20px;
+    }
 
-        button:active {
-            transform: scale(0.98);
-        }
+    .step {
+        padding: 13px;
+        margin: 8px 0;
+        border-radius: 10px;
+        background: #172337;
+        text-align: center;
+    }
 
-        .status {
-            margin-top: 20px;
-        }
+    .working {
+        background: #1e40af;
+    }
 
-        .step {
-            padding: 13px;
-            margin: 8px 0;
-            border-radius: 10px;
-            background: #172337;
-            text-align: center;
-        }
+    .finished {
+        background: #166534;
+    }
 
-        .working {
-            background: #1e40af;
-        }
+    .result {
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 15px;
+        background: #172337;
+        text-align: center;
+    }
 
-        .finished {
-            background: #166534;
-        }
+    .signal {
+        font-size: 30px;
+        font-weight: bold;
+        margin: 15px 0;
+    }
 
-        .result {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 15px;
-            background: #172337;
-            text-align: center;
-        }
+    .buy {
+        color: #22c55e;
+    }
 
-        .result h2 {
-            margin-top: 0;
-        }
+    .sell {
+        color: #ef4444;
+    }
 
-        .signal {
-            font-size: 30px;
-            font-weight: bold;
-            margin: 15px 0;
-        }
+    .wait {
+        color: #facc15;
+    }
 
-        .confidence {
-            font-size: 21px;
-            margin: 10px 0;
-        }
+    .confidence {
+        font-size: 21px;
+        margin: 10px 0;
+    }
 
-        .info {
-            color: #cbd5e1;
-            line-height: 1.7;
-        }
+    .info {
+        color: #cbd5e1;
+        line-height: 1.7;
+    }
 
-        .warning {
-            margin-top: 20px;
-            color: #64748b;
-            font-size: 12px;
-            text-align: center;
-        }
+    .warning {
+        margin-top: 20px;
+        color: #64748b;
+        font-size: 12px;
+        text-align: center;
+    }
+</style>
 
-    </style>
-</head>
+</head><body><div class="app"><div class="header">
+    <h1>🤖 TREU TRADING AI</h1>
+    <p>AI-Powered Market Analysis</p>
+</div>
 
-<body>
+<div class="card">
 
-<div class="app">
+    <label for="pair">
+        Choisir l'instrument
+    </label>
 
-    <div class="header">
+    <select id="pair">
+        <option value="EUR/USD OTC">EUR/USD OTC</option>
+        <option value="GBP/USD OTC">GBP/USD OTC</option>
+        <option value="USD/JPY OTC">USD/JPY OTC</option>
+        <option value="AUD/USD OTC">AUD/USD OTC</option>
+        <option value="XAU/USD">XAU/USD</option>
+    </select>
 
-        <h1>🤖 TREU TRADING AI</h1>
+    <button id="analyseBtn" onclick="lancerAnalyse()">
+        🔍 ANALYSER LE MARCHÉ
+    </button>
 
-        <p>AI-Powered Market Analysis</p>
-
+    <div id="status" class="status">
+        <p style="text-align:center;">
+            En attente de l'analyse...
+        </p>
     </div>
 
-
-    <div class="card">
-
-        <label for="pair">
-            Choisir l'instrument
-        </label>
-
-        <select id="pair">
-
-            <option value="EUR/USD OTC">
-                EUR/USD OTC
-            </option>
-
-            <option value="GBP/USD OTC">
-                GBP/USD OTC
-            </option>
-
-            <option value="USD/JPY OTC">
-                USD/JPY OTC
-            </option>
-
-            <option value="AUD/USD OTC">
-                AUD/USD OTC
-            </option>
-
-            <option value="XAU/USD">
-                XAU/USD
-            </option>
-
-        </select>
-
-
-        <button onclick="lancerAnalyse()">
-
-            🔍 ANALYSER LE MARCHÉ
-
-        </button>
-
-
-        <div id="status" class="status">
-
-            <p style="text-align:center;">
-                En attente de l'analyse...
-            </p>
-
-        </div>
-
-
-        <div id="resultat"></div>
-
-    </div>
-
-
-    <div class="warning">
-
-        ⚠️ Prototype de démonstration.
-        Un signal ne garantit jamais un gain.
-
-    </div>
+    <div id="resultat"></div>
 
 </div>
 
+<div class="warning">
+    ⚠️ Analyse expérimentale. Un signal ne garantit jamais un gain.
+</div>
 
-<script>
+</div><script src="script.js"></script><script>
 
 function lancerAnalyse() {
 
-    const pair =
-        document.getElementById("pair").value;
+    const pair = document.getElementById("pair").value;
+    const status = document.getElementById("status");
+    const resultat = document.getElementById("resultat");
+    const bouton = document.getElementById("analyseBtn");
 
-    const status =
-        document.getElementById("status");
-
-    const resultat =
-        document.getElementById("resultat");
-
-
+    bouton.disabled = true;
     resultat.innerHTML = "";
 
-
     const etapes = [
-        "S5",
-        "S4",
-        "S3",
-        "S2",
-        "S1",
-        "M1"
+        "S15 — Tendance",
+        "S5 — Confirmation",
+        "S3 — Signal rapide",
+        "Fractal 2",
+        "M1 — Contrôle"
     ];
 
+    let html = `
+        <h3 style="text-align:center;">
+            📊 ANALYSE : ${pair}
+        </h3>
+    `;
 
-    let html = "";
-
-    etapes.forEach(function(etape) {
-
+    etapes.forEach((etape, index) => {
         html += `
             <div
                 class="step"
-                id="step-${etape}"
+                id="step-${index}"
             >
                 ⏳ ${etape} — EN ATTENTE
             </div>
         `;
-
     });
 
-
-    status.innerHTML = `
-
-        <h3 style="text-align:center;">
-            📊 ANALYSE : ${pair}
-        </h3>
-
-        ${html}
-
-    `;
-
+    status.innerHTML = html;
 
     let position = 0;
 
-
     const analyse = setInterval(function() {
-
 
         if (position > 0) {
 
             const precedent =
-                document.getElementById(
-                    "step-" + etapes[position - 1]
-                );
+                document.getElementById("step-" + (position - 1));
 
             precedent.classList.remove("working");
-
             precedent.classList.add("finished");
 
             precedent.innerHTML =
-                "✅ " +
-                etapes[position - 1] +
-                " — TERMINÉ";
-
+                "✅ " + etapes[position - 1] + " — TERMINÉ";
         }
-
 
         if (position < etapes.length) {
 
             const actuel =
-                document.getElementById(
-                    "step-" + etapes[position]
-                );
+                document.getElementById("step-" + position);
 
             actuel.classList.add("working");
 
             actuel.innerHTML =
-                "⏳ " +
-                etapes[position] +
-                " — ANALYZING...";
+                "⏳ " + etapes[position] + " — ANALYSE...";
 
             position++;
 
-        }
-
-
-        else {
+        } else {
 
             clearInterval(analyse);
 
-            afficherSignal(pair);
+            if (typeof analyserMultiTimeframe === "function") {
 
+                const signaux = {
+                    S3: "ATTENDRE",
+                    S5: "ATTENDRE",
+                    S15: "ATTENDRE",
+                    fractal: "ATTENDRE"
+                };
+
+                const resultatIA =
+                    analyserMultiTimeframe(signaux);
+
+                afficherResultat(pair, resultatIA);
+
+            } else {
+
+                resultat.innerHTML = `
+                    <div class="result">
+                        <h2>⚠️ Moteur indisponible</h2>
+                        <p class="info">
+                            Le moteur d'analyse n'a pas été chargé.
+                        </p>
+                    </div>
+                `;
+            }
+
+            bouton.disabled = false;
         }
 
-
-    }, 1200);
-
+    }, 900);
 }
 
 
-function afficherSignal(pair) {
+function afficherResultat(pair, data) {
 
     const resultat =
         document.getElementById("resultat");
 
+    let classe = "wait";
+    let titre = "⚪ ATTENDRE";
 
-    /*
-       PROTOTYPE UNIQUEMENT.
-       Nous remplacerons cette partie
-       par une vraie analyse de marché.
-    */
+    if (data.signal === "ACHAT") {
+        classe = "buy";
+        titre = "🟢 ACHAT";
+    }
 
+    if (data.signal === "VENTE") {
+        classe = "sell";
+        titre = "🔴 VENTE";
+    }
 
-    const signaux = [
+    resultat.innerHTML = `
 
-        "🟢 CALL",
+        <div class="result">
 
-        "🔴 PUT",
+            <h2>📊 Résultat IA</h2>
 
-        "⚪ WAIT"
+            <div class="signal ${classe}">
+                ${titre}
+            </div>
 
-    ];
+            <div class="confidence">
+                Score : <strong>${data.score}/100</strong>
+            </div>
 
+            <div class="info">
+                Instrument : ${pair}<br>
+                Tendance : ${data.timeframe.tendance}<br>
+                Confirmation : ${data.timeframe.confirmation}<br>
+                Signal rapide : ${data.timeframe.rapide}<br>
+                Fractal : ${data.fractal}
+            </div>
 
-    const signal =
-        signaux[
-            Math.floor(
-                Math.random() * signaux.length
-            )
-        ];
+        </div>
+    `;
+}
 
-
-    const confiance =
-        Math.floor(
-            Math.random() * 16
-        ) + 75;
-
-
-    resultat.inn
+</script></body>
+</html>
