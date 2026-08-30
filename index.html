@@ -105,6 +105,10 @@
         text-align: center;
     }
 
+    .result h2 {
+        margin-top: 0;
+    }
+
     .signal {
         font-size: 30px;
         font-weight: bold;
@@ -178,18 +182,27 @@
     ⚠️ Analyse expérimentale. Un signal ne garantit jamais un gain.
 </div>
 
-</div><script src="script.js"><script src="analyse.js"></script>
-<script src="script.js"></script>
+</div><!-- MOTEUR D'ANALYSE --><script src="analyse.js"></script><!-- MOTEUR DE SCORE --><script src="script.js"></script><script>
 
 function lancerAnalyse() {
 
-    const pair = document.getElementById("pair").value;
-    const status = document.getElementById("status");
-    const resultat = document.getElementById("resultat");
-    const bouton = document.getElementById("analyseBtn");
+    const pair =
+        document.getElementById("pair").value;
+
+    const status =
+        document.getElementById("status");
+
+    const resultat =
+        document.getElementById("resultat");
+
+    const bouton =
+        document.getElementById("analyseBtn");
+
 
     bouton.disabled = true;
+
     resultat.innerHTML = "";
+
 
     const etapes = [
         "S15 — Tendance",
@@ -199,13 +212,16 @@ function lancerAnalyse() {
         "M1 — Contrôle"
     ];
 
+
     let html = `
         <h3 style="text-align:center;">
             📊 ANALYSE : ${pair}
         </h3>
     `;
 
-    etapes.forEach((etape, index) => {
+
+    etapes.forEach(function(etape, index) {
+
         html += `
             <div
                 class="step"
@@ -214,92 +230,186 @@ function lancerAnalyse() {
                 ⏳ ${etape} — EN ATTENTE
             </div>
         `;
+
     });
+
 
     status.innerHTML = html;
 
+
     let position = 0;
 
-    const analyse = setInterval(function() {
 
-        if (position > 0) {
+    const analyse =
+        setInterval(function() {
 
-            const precedent =
-                document.getElementById("step-" + (position - 1));
 
-            precedent.classList.remove("working");
-            precedent.classList.add("finished");
+            if (position > 0) {
 
-            precedent.innerHTML =
-                "✅ " + etapes[position - 1] + " — TERMINÉ";
-        }
+                const precedent =
+                    document.getElementById(
+                        "step-" + (position - 1)
+                    );
 
-        if (position < etapes.length) {
+                precedent.classList.remove("working");
 
-            const actuel =
-                document.getElementById("step-" + position);
+                precedent.classList.add("finished");
 
-            actuel.classList.add("working");
+                precedent.innerHTML =
+                    "✅ " +
+                    etapes[position - 1] +
+                    " — TERMINÉ";
 
-            actuel.innerHTML =
-                "⏳ " + etapes[position] + " — ANALYSE...";
-
-            position++;
-
-        } else {
-
-            clearInterval(analyse);
-
-            if (typeof analyserMultiTimeframe === "function") {
-
-                const signaux = {
-                    S3: "ATTENDRE",
-                    S5: "ATTENDRE",
-                    S15: "ATTENDRE",
-                    fractal: "ATTENDRE"
-                };
-
-                const resultatIA =
-                    analyserMultiTimeframe(signaux);
-
-                afficherResultat(pair, resultatIA);
-
-            } else {
-
-                resultat.innerHTML = `
-                    <div class="result">
-                        <h2>⚠️ Moteur indisponible</h2>
-                        <p class="info">
-                            Le moteur d'analyse n'a pas été chargé.
-                        </p>
-                    </div>
-                `;
             }
 
-            bouton.disabled = false;
-        }
 
-    }, 900);
+            if (position < etapes.length) {
+
+                const actuel =
+                    document.getElementById(
+                        "step-" + position
+                    );
+
+                actuel.classList.add("working");
+
+                actuel.innerHTML =
+                    "⏳ " +
+                    etapes[position] +
+                    " — ANALYSE...";
+
+                position++;
+
+            }
+
+
+            else {
+
+                clearInterval(analyse);
+
+                testerMoteur(pair);
+
+                bouton.disabled = false;
+
+            }
+
+
+        }, 900);
+
 }
 
+
+/*
+==========================================
+TEST DU MOTEUR
+==========================================
+*/
+
+function testerMoteur(pair) {
+
+    const resultat =
+        document.getElementById("resultat");
+
+
+    /*
+    Pour l'instant nous envoyons
+    volontairement ATTENDRE.
+
+    La prochaine étape sera de remplacer
+    ces données de test par les vraies
+    bougies du marché.
+    */
+
+    const signaux = {
+
+        S3: "ATTENDRE",
+
+        S5: "ATTENDRE",
+
+        S15: "ATTENDRE",
+
+        fractal: "ATTENDRE"
+
+    };
+
+
+    if (
+        typeof analyserMultiTimeframe !==
+        "function"
+    ) {
+
+        resultat.innerHTML = `
+
+            <div class="result">
+
+                <h2>⚠️ Moteur indisponible</h2>
+
+                <p class="info">
+                    Le moteur d'analyse n'a pas
+                    été chargé correctement.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    /*
+    Le moteur de score existant attend
+    actuellement des signaux S3/S5/S15.
+
+    Cette partie sera reliée aux données
+    réelles dans l'étape suivante.
+    */
+
+    const resultatIA =
+        analyserMultiTimeframe(signaux);
+
+
+    afficherResultat(
+        pair,
+        resultatIA
+    );
+
+}
+
+
+/*
+==========================================
+AFFICHAGE DU RESULTAT
+==========================================
+*/
 
 function afficherResultat(pair, data) {
 
     const resultat =
         document.getElementById("resultat");
 
+
     let classe = "wait";
+
     let titre = "⚪ ATTENDRE";
 
+
     if (data.signal === "ACHAT") {
+
         classe = "buy";
+
         titre = "🟢 ACHAT";
+
     }
 
+
     if (data.signal === "VENTE") {
+
         classe = "sell";
+
         titre = "🔴 VENTE";
+
     }
+
 
     resultat.innerHTML = `
 
@@ -312,19 +422,39 @@ function afficherResultat(pair, data) {
             </div>
 
             <div class="confidence">
-                Score : <strong>${data.score}/100</strong>
+                Score :
+                <strong>
+                    ${data.score}/100
+                </strong>
             </div>
 
             <div class="info">
-                Instrument : ${pair}<br>
-                Tendance : ${data.timeframe.tendance}<br>
-                Confirmation : ${data.timeframe.confirmation}<br>
-                Signal rapide : ${data.timeframe.rapide}<br>
-                Fractal : ${data.fractal}
+
+                Instrument :
+                ${pair}
+                <br>
+
+                Tendance :
+                ${data.timeframe.tendance}
+                <br>
+
+                Confirmation :
+                ${data.timeframe.confirmation}
+                <br>
+
+                Signal rapide :
+                ${data.timeframe.rapide}
+                <br>
+
+                Fractal :
+                ${data.fractal}
+
             </div>
 
         </div>
+
     `;
+
 }
 
 </script></body>
